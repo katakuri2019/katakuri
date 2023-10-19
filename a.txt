@@ -1,0 +1,370 @@
+﻿a. Caesar Cipher
+
+
+import random
+LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG="HELLOWORLD"
+key=3
+
+
+i=0
+cipher=""
+
+
+while(i<len(MSG)) :
+    p=(LETTERS.rfind(MSG[i]))
+    cipher+=LETTERS[(p+key)%26]
+    i+=1
+
+
+print(f"Using Caesar Cipher : \nOriginal message : {MSG} \nCipher Text : {cipher}")
+
+
+  
+
+
+
+
+
+
+
+
+
+b. Monoalphabetic Cipher
+
+
+import random
+LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG="HELLOWORLD"
+
+
+i=0
+cipher=""
+
+
+while(i<len(MSG)):
+    n = random.randint(0,25)
+
+
+    if(LETTERS.rfind(MSG[i])!=n):
+        cipher+=LETTERS[n]
+    i+=1
+    
+print(f"Using Monoalphabetic Algorithm : \nOriginal message : {MSG} \nCipher Text : {cipher}")
+
+
+  
+
+
+
+
+
+Modified caesar cipher
+
+
+import random
+LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG="HELLOWORLD"
+key=int(input("Enter Key:"))
+
+
+i=0
+cipher=""
+
+
+while(i<len(MSG)) :
+    p=(LETTERS.rfind(MSG[i]))
+    cipher+=LETTERS[(p+key)%26]
+    i+=1
+
+
+print(f"Using Caesar Cipher : \nOriginal message : {MSG} \nCipher Text : {cipher}")
+
+
+
+
+
+
+________________
+
+
+Practical 2 : 
+Write programs to implement the following Substitution Cipher Techniques:
+
+
+a. Vernam Cipher
+
+
+
+
+import random
+import string
+
+
+LETTERS="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG="HELLOWORLD"
+print("Message : \n", MSG)
+
+
+for i in range(len(MSG)) :
+    print("", LETTERS.rfind(MSG[i]), end='')
+
+
+ONETIMEPAD=""
+VERNAM=""
+
+
+for _ in range(len(MSG)) :
+    ONETIMEPAD+= random.choice(string.ascii_uppercase)
+
+
+print()
+print("\nONE TIME PAD :  \n", ONETIMEPAD)
+
+
+for i in range(len(MSG)) :
+    print("",LETTERS.rfind(ONETIMEPAD[i]), end='')
+
+
+for i in range(len(MSG)) :
+    m1 = LETTERS.rfind(MSG[i])
+    m2 = LETTERS.rfind(ONETIMEPAD[i])
+    s = m1 + m2
+
+
+    #print(" ",s)
+
+
+    if s>=26:
+        VERNAM += LETTERS[s-26]
+    else :
+        VERNAM += LETTERS[s]
+
+
+print(f"\n\nUsing Vernam Cipher : \nOriginal message : {MSG} \nCipher Text : {VERNAM}")
+
+
+  
+
+
+
+________________
+
+
+Practical 3 : 
+
+
+Write program to encrypt and decrypt strings using
+
+
+a. DES Algorithm
+
+
+from Crypto.Cipher import DES
+
+
+def pad(text):
+    n = len(text) % 8
+    return text + (b' ' * n)
+
+
+
+
+key = b'hello123'
+text1 = b'Python is the Best Language!'
+
+
+des = DES.new(key, DES.MODE_ECB)
+
+
+padded_text = pad(text1)
+encrypted_text = des.encrypt(padded_text)
+
+
+print(encrypted_text)
+print(des.decrypt(encrypted_text))
+
+
+  
+
+
+
+
+
+b. AES Algorithm
+
+
+from Crypto.Cipher import AES
+
+
+key = b'Sixteen byte key'
+data = b'hello from other side'
+
+
+e_cipher = AES.new(key, AES.MODE_EAX)
+e_data = e_cipher.encrypt(data)
+
+
+d_cipher = AES.new(key, AES.MODE_EAX, e_cipher.nonce)
+d_data = d_cipher.decrypt(e_data)
+
+
+print("Encryption was: ", e_data)
+print("Original Message was: ", d_data)
+
+
+  
+
+________________
+
+
+Practical 4 : 
+Write a program to implement RSA algorithm to perform encryption / decryption of
+a given string.
+
+
+import rsa
+
+
+#1st way to send message from bob to alice using bob's public key
+(bob_pub, bob_priv) = rsa.newkeys(512)
+message = 'hello Bob!'
+print("Original message : ", message)
+message = message.encode('utf8')
+print()
+
+
+encrypted = rsa.encrypt(message, bob_pub)
+print("Encrypted message : ")
+print(encrypted)
+print()
+
+
+decrypted = rsa.decrypt(encrypted, bob_priv).decode()
+print("Decrypted message : ")
+print(decrypted)
+
+
+print("\n")
+#2nd way (same as the above just with different variables)
+pubkey, privkey = rsa.newkeys(512)
+string = "hello Bob!"
+
+
+encrypted = rsa.encrypt(string.encode('utf-8'),pubkey)
+print("The Original string: ", string)
+print()
+
+
+print("The Encrypted string: ", encrypted)
+print()
+
+
+decrypted = rsa.decrypt(encrypted, privkey).decode()
+print("\nThe Decrypted string: ", decrypted)
+
+
+  
+________________
+
+Practical 5 : 
+Write a program to implement the Diffie-Hellman Key Agreement algorithm to
+generate symmetric keys
+
+
+n = int(input("Enter prime number 1 : " ))
+g = int(input("Enter prime number 2  : " ))
+x = int(input("Enter Alice's private key : " ))
+y = int(input("Enter Bob's private key : " ))
+
+
+A = (g ** x) %n
+print("A = " , A)
+
+
+B = (g ** y) %n
+print("B = " , B)
+
+
+K1 = (B ** x)%n
+print("K1 = ", K1)
+
+
+K2 = (A ** y)%n
+print("K2 = ", K2)
+
+
+if (K1 == K2) :
+    print("Keys are equal so it is transmitted successfully")
+
+
+  
+
+
+
+________________
+
+
+MD5 Code : 
+
+
+import hashlib
+
+
+print("Original message : Hello, Python! ")
+hash_obj = hashlib.md5(b'Hello, Python!')
+print("MD5 : ")
+print(hash_obj.hexdigest())
+
+
+#Input from user
+mystring = input('\n\nEnter string to hash: ')
+hash_obj = hashlib.md5(mystring.encode())
+print(hash_obj.hexdigest())
+
+
+  
+
+
+
+
+
+
+
+R1(config)# router ospf 1 
+R1(config-router)# area 0 authentication message-digest 
+R1(config)# interface s0/0/0 
+R1(config-if)# ip ospf message-digest-key 1 md5 MD5pa55
+
+
+NTP
+R1(config)# ntp server 192.168.1.5 
+R1(config)# ntp update-calendar 
+R1(config)# ntp authenticate 
+R1(config)# ntp trusted-key 1 
+R1(config)# ntp authentication-key 1 md5 NTPpa55  
+
+
+SYSLOG
+R1(config)# service timestamps log datetime msec
+R1(config)# logging host 192.168.1.6
+
+
+SSH
+R3(config)# ip domain-name ccnasecurity.com
+R3(config)# username SSHadmin privilege 15 secret ciscosshpa55  
+R3(config)# line vty 0 4 
+R3(config-line)# login local 
+R3(config-line)# transport input ssh
+R3(config)# crypto key zeroize rsa
+R3(config)# crypto key generate rsa 
+R3(config)# ip ssh time-out 90 
+R3(config)# ip ssh authentication-retries 2 
+R3(config)# ip ssh version 2 
+Open the Desktop of PC-C. Select the Command Prompt icon. From PC-C, enter the command to connect to R3 via Telnet. PC> telnet 192.168.3.1 
+
+
+Open the Desktop of PC-C. Select the Command Prompt icon. From PC-C, enter the command to connect to R3 via SSH. When prompted for the password, enter the password configured for the administrator ciscosshpa55. PC> ssh –l SSHadmin 192.168.3.1
+
+
+R2# ssh –v 2 –l SSHadmin 10.2.2.1
