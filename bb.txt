@@ -1,0 +1,413 @@
+Practical 1
+
+Demostrate data collection structure using series
+Code:
+import pandas as pd
+data = ['DEv', 'Thik hai', 'Superstar', 'Glamrock', 'Pizzeria'] 
+index= ['1','2','3','4','5']
+my_series = pd.Series(data,index)
+print(my_series)
+
+accessing elements from series
+Code:
+print('Element at index 2:\n',  my_series[2])
+print('element from index 3 to 5:\n', my_series[3:])
+
+performing operations on the series
+Code: 
+info = [10, 20, 30, 40, 50, 60]
+srs = pd.Series(info)
+
+print("Sum of all elements: ", srs.sum())
+print("Mean of all elements: ", srs.mean())
+print("Max of all elements: ", srs.max())
+
+Filtering data in the series
+Code:
+flt_srs = srs[srs>30]
+print('Elements grater than 30:\n',flt_srs)
+
+Code using Dictionary
+
+import pandas as pd
+data_dict = {'A': 10, 'B': 20, 'C': 30}
+series = pd.Series(data_dict)
+print(series)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 2
+
+Create dataframe amd perform different operations on it.
+Code: 
+#create a dictionary of data
+data = {'Name': ['Olly', 'Pamm', 'Venilla', 'Inkyoung'], 'Age': [15, 23, 21, 20], 'City': ['Colorado', 'Brazil', 'Mauritius', 'Seoul']}
+
+#Create dataframe from the dictionary
+df = pd.DataFrame(data)
+print(df)
+
+
+Accessing and manipulation data
+Code:
+print('Names',df['Name'])
+	
+
+Filtering rows based on conditions.
+Code:
+print("Age greater than 30:\n", df[df['Age'] > 20])
+
+
+Add a new column
+Code:
+df['Salary'] = [50000, 60000, 75000, 48000]
+print(df)
+
+
+Summary Stats
+Code:
+print('Mean Age:', df['Age'].mean())
+print("Max Age:", df['Age'].max())
+
+
+Grouping and agregation
+Code:
+city_group = df.groupby('City')
+print("Mean age by cities:\n", city_group['Age'].mean())
+
+
+Sorting
+Code:
+sorted_df = df.sort_values(by= 'Age', ascending = False)
+print(sorted_df)
+
+
+Selecting multiple columns
+
+CODE:
+
+#Select multiple columns
+print("\n Name and Age:")
+df_AB = df[['Name', 'Age']]
+print(df_AB)
+
+Code to Transpose:
+
+import pandas as pd
+data = {'Name': ['John', 'Emily', 'Kate', 'Sam'],
+ 'Age': [30, 35, 25, 32],
+ 'City': ['New York', 'San Francisco', 'Chicago', 'Boston']}
+df = pd.DataFrame(data)
+print("Original DataFrame:")
+print(df)
+transposed_df = df.T
+print("\nTransposed DataFrame:")
+print(transposed_df)
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 3
+
+Create a panel from a dictionary of data frame objects and perform operations on it
+Code:
+#panel
+import pandas as pd
+
+data1 = {'A': [1,2,3], 'B': [4,5,6] }
+data2 = {'C':[7,8,9], 'D': [10,11,12]}
+
+df1 = pd.DataFrame(data1)
+df2 = pd.DataFrame(data2)
+
+panel = {'DataFRame1': df1, 'Dataframe2': df2}
+
+
+print('Panel from dataframe dictionary: \n', panel['DataFRame1'])
+print( panel['Dataframe2'])
+
+Operations on the same
+Code:
+print('Max of the dataframe 1: ', panel['DataFrame1']['A'].max())
+print('MEan of the dataframe 2 : ', panel['Dataframe2']['C'].mean())
+
+combined = pd.concat(panel.values(), axis =1)
+print ('Combined Data\n', combined)
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 4
+
+Step 1. Create an empty Text File and save it on the Desktop.
+Step 2. Open Jupyter -> Upload -> Desktop -> Practical 4 
+Step 3. Open Jupyter and run the code given below: 
+
+Code:
+
+# File handling operations in Python
+# Open a file in write mode ('w' or 'wt' for text mode)
+file_path = 'Prac exam.txt'
+with open(file_path, 'w') as file:
+    # Write content to the file
+    file.write("Hello, this is a sample file.\n")
+    file.write("Writing data to a file in Python.\n")
+    file.write("File handling is important in programming.")
+
+# Open the file in read mode ('r' or 'rt' for text mode)
+with open(file_path, 'r') as file:
+    # Read content from the file
+    content = file.read()
+    print("Content of the file:")
+    print(content)
+
+# Open the file in append mode ('a' or 'at' for text mode)
+with open(file_path, 'a') as file:
+    # Append additional content to the file
+    file.write("\nAppending more data to the file.")
+
+# Open the file again in read mode to see the updated content
+with open(file_path, 'r') as file:
+    # Read and print the updated content
+    updated_content = file.read()
+    print("\nUpdated content of the file:")
+    print(updated_content)
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 5:
+
+Perform data cleaning and pre-processing with different files.
+Step 1. Open Kaggle, and Sign in
+Step 2. Download the sample Superstore dataset from there for Analysis.
+Step 3. Open the notebook, and in Data, add the Superstore data set.
+Code:
+
+import pandas as pd
+df = pd.read_csv(r'Superstore.csv', encoding = 'ISO-8859-1')
+df.head()
+
+
+#Finding the Missing and Zero values
+print(df.isnull().any().sum())   
+#print(filename.isnull().any().sum())
+
+
+#Drop all rows that contain missing values
+file = df.dropna()
+df.shape
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Practical 6 :
+
+Write a program to handle missing and outlier values.
+code:
+
+import numpy as np
+import pandas as pd
+data={'Feature1':[1,2,3,np.nan,5,6,7,8,9,10],
+ 'Feature2': [10,20,30,40,50,60,70,80,90,100]}
+df=pd.DataFrame(data)
+df['Feature1'].fillna(df['Feature1'].mean(), inplace=True)
+from scipy import stats
+z_scores=np.abs(stats.zscore(df))
+threshold=3
+outliers = np.where(z_scores > threshold)
+df_no_outliers = df[(z_scores < threshold).all(axis=1)]
+print("Original DataFrame:")
+print(df)
+print("\nDataFrame with missing values handles:")
+print(df_no_outliers)
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 7
+Q. Demonstrate Data exploration on series and data frame.
+
+Code:
+
+import pandas as pd
+import numpy as np
+
+# Create a sample dataset
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Emma'],
+        'Age': [25, 30, 22, 35, 28],
+        'Salary': [50000, 60000, 45000, 70000, 55000],
+        'City': ['New York', 'San Francisco', 'Los Angeles', 'Chicago', 'Boston']}
+
+# Create a DataFrame from the dataset
+df = pd.DataFrame(data)
+
+# Display the DataFrame
+print("Original DataFrame:")
+print(df)
+print("\n")
+
+# Data exploration on Series
+age_series = df['Age']
+
+# Basic statistics on the Age series
+print("Summary statistics for Age:")
+print(age_series.describe())
+print("\n")
+
+# Check for missing values in the Age series
+print("Missing values in Age:")
+print(age_series.isnull().sum())
+print("\n")
+
+# Data exploration on DataFrame
+# Summary statistics for the entire DataFrame
+print("Summary statistics for the DataFrame:")
+print(df.describe())
+print("\n")
+
+# Correlation matrix for the DataFrame
+print("Correlation matrix for the DataFrame:")
+print(df.corr())
+print("\n")
+
+# Count the occurrences of each unique value in the City column
+print("Count of unique values in the City column:")
+print(df['City'].value_counts())
+print("\n")
+
+# Grouping by City and calculating mean salary
+grouped_by_city = df.groupby('City')['Salary'].mean()
+print("Mean salary grouped by City:")
+print(grouped_by_city)
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 8
+Stats analysis
+
+Code:
+
+from scipy import stats
+
+data = [22,67,54,90,87,34,67,45,39,76]
+
+mean = np.mean(data)
+min = np.min(data)
+max = np.max(data)
+stddev = np.std(data)
+range = max - min
+median = np.median(data)
+var = np.var(data)
+
+print('Sats Summery: ')
+print('Mean: ',mean)
+print('MIn: ',min)
+print('MAx: ',max)
+print('Standard deviation: ',stddev)
+print('Range: ',range)
+print('Median: ',median)
+print('veriance: ',var)
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Practical 9: 
+Visualize data through Matplotlib
+
+Line plot:
+
+Code:
+
+import matplotlib.pyplot as plt
+
+x=[1,2,3,4,5]
+y=[10,12,5,8,16]
+
+#Line Plot
+plt.figure(figsize=(8,4))
+plt.plot(x,y,marker='o',linestyle='-',color='b',label='Line Plot')
+plt.title('Line Plot Example')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.legend()
+plt.grid(True)
+
+plt.show()
+
+
+plot:
+
+Code:
+# importing the required libraries
+import matplotlib.pyplot as plt
+import numpy as np
+# define data values
+x = np.array([1, 2, 3, 4]) # X-axis points
+y = x*2 # Y-axis points
+plt.plot(x, y) # Plot the chart
+plt.show() # display
+
+bar:
+
+Code:
+from matplotlib import pyplot as plt
+x=[5,2,9,4,7]
+y=[10,5,8,4,2]
+plt.bar(x,y)
+plt.show()
+
+Code for Scatter Plot:
+import matplotlib.pyplot as plt
+import numpy as np
+x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6])
+y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86])
+plt.scatter(x, y)
+plt.show()
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Practical 10: 
+Visualize data through Seaborn
+
+line plot:
+
+Code :
+# importing packages
+import seaborn as sns
+import matplotlib.pyplot as plt
+# loading dataset
+data = sns.load_dataset("iris")
+# draw lineplot
+sns.lineplot(x="sepal_length", y="sepal_width", data=data)
+plt.show()
+
+Visualize data through Seaborn plotting (Scatter plot).
+
+Code:
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+data = sns.load_dataset("iris")
+
+plt.figure(figsize=(8,6))
+sns.scatterplot(data=data,x="sepal_length",y="sepal_width",hue="species")
+plt.title("Seaborn Scatter Plot Example")
+plt.xlabel("sepal Length")
+plt.ylabel("sepal width")
+
+plt.show()
+
