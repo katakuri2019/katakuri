@@ -1,0 +1,434 @@
+﻿Practical 1: Demonstrate data collection structure using series.
+Code 
+import pandas as pd
+
+
+data = [10,20,30,40]
+index = ['A','B','C','D']
+series = pd.Series(data, index=index)
+print(series)
+#Selecting an element
+print(series['C'])
+
+
+Output
+   
+
+
+Code using Dictionary
+import pandas as pd
+data_dict = {'A': 10, 'B': 20, 'C': 30}
+series = pd.Series(data_dict)
+print(series)
+  
+
+ 
+Practical 2: Create data frames and perform different operations on it.
+Code : 
+import pandas as pd
+data = {
+    'Name':['Ashu','Naman','Datta'],
+    'Age': [20,20,21],
+    'City': ['Mumbai', 'Dehradun', 'Noida']
+}
+df = pd.DataFrame(data)
+print(df)
+
+
+print(df.iloc[0][0])
+print(df.loc[1]['Name'])
+print(df.at[2,'Name'])
+print(df.iat[2,0])
+
+
+df.set_index('Name')
+
+
+df.drop('City', axis = 1)
+# Access a specific column
+print(df['Age'])
+  
+
+  
+   
+ 
+ 
+Code to Transpose
+import pandas as pd
+
+
+data = {'Name': ['John', 'Emily', 'Kate', 'Sam'],
+        'Age': [30, 35, 25, 32],
+        'City': ['New York', 'San Francisco', 'Chicago', 'Boston']}
+df = pd.DataFrame(data)
+print("Original DataFrame:")
+print(df)
+transposed_df = df.T
+print("\nTransposed DataFrame:")
+print(transposed_df)
+  
+
+ 
+Practical 3: Creating a Panel from a dictionary of Data Frame Objects and performing their operations.
+import pandas as pd
+import numpy as np
+
+
+# Create a Panel
+data = {'Item1': pd.DataFrame(np.random.randn(4, 3)),
+        'Item2': pd.DataFrame(np.random.randn(4, 3))}
+panel = pd.panel(data)
+
+
+# Display the original Panel
+print("Original Panel:")
+print(panel)
+
+
+# Add a new item to the Panel
+panel['Item3'] = pd.DataFrame(np.random.randn(4, 3))
+
+
+# Display the Panel after adding the item
+print("\nPanel after adding the item:")
+print(panel)
+
+
+# Delete an item from the Panel
+panel = panel.drop('Item2', axis=0)
+
+
+# Display the Panel after deleting the item
+print("\nPanel after deleting the item:")
+print(panel)
+
+
+
+
+
+
+Practical 4: Write a program to handle file handling operation
+Step 1. Create an empty Text File and save it.
+Step 2. Open your IDE, and and enter the code
+Code: 
+# Open a file in Write mode ('w', or 'wt' for texrt mode)
+
+
+file = open('hello.txt', 'w')
+file.write("hello this is a sample file \n")
+file.write("this program is to demonstrate \n")
+file.write("File handling in Python \n")
+file.close()
+
+
+
+
+# Open the file in read mode
+
+
+file = open('hello.txt', 'r')
+x = file.read()
+print("the content of the file is: ")
+print(x)
+file.close()
+
+
+# Open the file in Append mode
+file = open('hello.txt', 'a')
+file.write("This is append")
+file.close()
+
+
+
+
+# Open the file in read mode to see the updated content
+file = open('hello.txt','r')
+y = file.read()
+print("The updated content is : ")
+print(y)
+Output : 
+  
+
+
+
+ 
+Practical 5:Perform data cleaning and pre-processing with different files.
+Step 1. Open Kaggle, and Sign in
+Step 2. Download the sample Superstore dataset from there for Analysis.
+Step 3. Open the notebook, and in Data, add the Superstore data set.
+Code
+   
+
+
+Output
+    ________________
+
+
+ 
+
+
+
+
+ 
+Practical 6 :Write a program to handle missing and outlier values.
+Code
+import numpy as np
+import pandas as pd
+
+
+data={'Feature1':[1,2,3,np.nan,5,6,7,8,9,10],
+     'Feature2': [10,20,30,40,50,60,70,80,90,100]}
+
+
+df=pd.DataFrame(data)
+
+
+df['Feature1'].fillna(df['Feature1'].mean(), inplace=True)
+
+
+from scipy import stats
+
+
+z_scores=np.abs(stats.zscore(df))
+threshold=3
+
+
+outliers = np.where(z_scores > threshold)
+
+
+df_no_outliers = df[(z_scores < threshold).all(axis=1)]
+
+
+print("Original DataFrame:")
+print(df)
+print("\nDataFrame with missing values handles:")
+print(df_no_outliers)        
+
+
+Output
+   
+Practical 7 : Demonstrate Data exploration on series and data frame.
+Code: 
+import pandas as pd
+import numpy as np
+
+
+# Create a sample dataset
+data = {'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Emma'],
+        'Age': [25, 30, 22, 35, 28],
+        'Salary': [50000, 60000, 45000, 70000, 55000],
+        'City': ['New York', 'San Francisco', 'Los Angeles', 'Chicago', 'Boston']
+        }
+
+
+# Create a DataFrame from the dataset
+df = pd.DataFrame(data)
+
+
+# Display the DataFrame
+print("Original DataFrame:")
+print(df)
+print("\n")
+
+
+# Data exploration on Series
+age_series = df['Age']
+
+
+# Basic statistics on the Age series
+print("Summary statistics for Age:")
+print(age_series.describe())
+print("\n")
+
+
+# Check for missing values in the Age series
+print("Missing values in Age:")
+print(age_series.isnull().sum())
+print("\n")
+
+
+# Data exploration on DataFrame
+# Summary statistics for the entire DataFrame
+print("Summary statistics for the DataFrame:")
+print(df.describe())
+print("\n")
+
+
+# Check data types before calculating correlation matrix
+numeric_columns = df.select_dtypes(include=[np.number]).columns
+if len(numeric_columns) > 1:
+    # Correlation matrix for the DataFrame
+    print("Correlation matrix for the DataFrame:")
+    print(df[numeric_columns].corr())
+    print("\n")
+else:
+    print("No numeric columns for correlation calculation.")
+
+
+# Count the occurrences of each unique value in the City column
+print("Count of unique values in the City column:")
+print(df['City'].value_counts())
+print("\n")
+
+
+# Grouping by City and calculating mean salary
+grouped_by_city = df.groupby('City')['Salary'].mean()
+print("Mean salary grouped by City:")
+print(grouped_by_city)
+
+
+Output 
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+     
+   
+       
+Practical 8: Write a program to statistical analysis.
+import numpy as np
+from scipy import stats
+
+
+data = [34,45,32,48,22,55,36,38,40,28,60]
+
+
+mean = np.mean(data)
+median = np.median(data)
+std_dev = np.std(data)
+var = np.var(data)
+min_value = min(data)
+max_value = max(data)
+range_value = max_value - min_value
+
+
+t_statistic, p_value = stats.ttest_1samp(data,popmean=40)
+
+
+print("Data:",data)
+print("Mean",mean)
+print("Median:",median)
+print("Standard Deviation:",std_dev)
+print("Variance:",var)
+print("Minimun Vlaue:",min_value)
+print("Maximum Value:",max_value)
+print("Range:",range_value)
+print("T-Statistic:",t_statistic)
+print("P-Value:",p_value)
+
+
+shapiro_stat, shapiro_p = stats.shapiro(data)
+if shapiro_p>0.05:
+    print("Data is normally distributed (Shapiro-Wilk test p-value= ",shapiro_p,")")
+else:
+    print("Data is not normally distributed (Shapiro-Wilk test p-value= ",shapiro_p,")")
+
+
+Output
+  
+________________
+
+
+
+
+
+
+
+
+
+Practical 9: Visualize data through Matplotlib
+Step 1: Install the necessary libraries, using pip
+  
+ 
+
+
+Code
+# importing the required libraries
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# define data values
+x = np.array([1, 2, 3, 4]) # X-axis points
+y = x*2 # Y-axis points
+
+
+plt.plot(x, y) # Plot the chart
+plt.show() # display
+
+
+
+
+Output
+  
+ 
+
+
+Code
+from matplotlib import pyplot as plt
+
+
+x=[5,2,9,4,7]
+y=[10,5,8,4,2]
+plt.bar(x,y)
+plt.show()
+
+
+
+
+Output
+  
+ 
+
+
+Code for Scatter Plot
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6])
+y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86])
+
+
+plt.scatter(x, y)
+plt.show()
+
+
+
+
+Output
+  
+
+
+
+ 
+
+
+Practical 10: Visualize data through Seaborn
+Code : 
+# importing packages
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+# loading dataset
+data = sns.load_dataset("iris")
+
+
+# draw lineplot
+sns.lineplot(x="sepal_length", y="sepal_width", data=data)
+plt.show()
+
+
+Output:
