@@ -1,0 +1,281 @@
+Practical no-1
+Aim: Write a program to implement to create a simple web service that converts the
+temperature from Fahrenheit to Celsius and vice a versa.
+
+- Add Web Service(ASMX)
+[WebMethod]
+public double ctof(double c)
+{
+return ((c * 1.8) + 32);
+}
+[WebMethod]
+public double ftoc(double f)
+{
+return ((f - 32) * 0.56);
+}
+- Add Webform (2 textbox and 1 radiolist)
+mywebservice ws=new mywebservice();
+switch(RadioButtonList1.SelectedIndex)
+{
+case 0: TextBox2.Text =
+ws.ftoc(Convert.ToDouble(TextBox1.Text)).ToString();
+break;
+case 1:TextBox2.Text =
+ws.ctof(Convert.ToDouble(TextBox1.Text)).ToString();
+break;
+}
+- Add service reference to project and run webform
+
+Practical no-2
+Aim: Write a program to implement the operation can receive request and will return a
+response in two ways. a) One - Way operation b) Request –Response
+
+- create WCF application(search WCF when creating project)
+public string SayHello(string name)
+{
+System.Diagnostics.Debug.WriteLine("SayHello({0})", name);
+return "hello " + name;
+}
+public double Add(double n1, double n2)
+{
+double result = n1 + n2;
+return result;
+}
+public void Subtract(double n1, double n2)
+{
+double result = n1 - n2;
+System.Diagnostics.Debug.WriteLine("subtract({0},{1}) ={2}", n1, n2,
+result);
+- Now double click on IService1.cs file and type the code below:
+string SayHello(string name);
+[OperationContract]
+double Add(double n1, double n2);
+[OperationContract(IsOneWay = true)]
+void Subtract(double n1, double n2);
+- Run svc file
+
+Practical no-4
+Aim: Develop Client which consumes web services developed in different platform,
+
+Add web service in visual studio and run in debug mode
+click on service description and copy link
+open netbeans and create web application
+right click on project and add service client
+click wsdl url and paste link
+add jsp 
+right click on whitespace and click web service client resources
+select webserive and click ok
+run jsp page
+
+Practical no-5
+Aim: Write a JAX-WS web service to perform the following operations. Define a Servlet
+/ JSP that consumes the web service.
+
+create web application in netbeans
+add webservice
+click implement web service as stateless bean
+open web service
+right click and click on add operation
+name:add
+return type:int
+add 2 parameters as type int
+return the method as n1+n2
+right click on webservice and test web service
+create new web application
+add webservice client and browse for the web service
+add servelet file
+Add the following code in the servlet processRequest function
+out.println("<form>");
+out.println("Enter First number: <input type='text' name='n1'/>");
+out.println("Enter second number: <input type='text' name='n2'/>");
+out.println("<input type='submit' value='add'/></form>");
+out.println("<h1>Addition of two
+number</h1>"+add(Integer.parseInt(request.getParameter("n1")),Integer.parseInt(request.getParameter("n2")))+"</h1>");
+run servelt file
+
+Practical no-6
+Aim: Define a web service method that returns the contents of a database in a JSON
+string. The contents should be displayed in a List Format.
+
+create .net application and add new database named student
+add web service and add this code:
+[WebMethod]
+public void GetAllStudents()
+{
+List<student> slist = new List<student>();
+string cs =
+ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
+using(SqlConnection con= new SqlConnection(cs))
+{
+SqlCommand cmd = con.CreateCommand();
+cmd.Connection=con;
+cmd.CommandType = System.Data.CommandType.Text;
+cmd.CommandText = "select * from student";
+con.Open();
+SqlDataReader rdr=cmd.ExecuteReader();
+while (rdr.Read())
+{
+student s = new student();
+s.name = rdr["name"].ToString();
+s.rollno = Convert.ToInt32(rdr["rollno"]);
+s.emailid = rdr["email"].ToString();
+slist.Add(s);
+}
+}
+JavaScriptSerializer js=new JavaScriptSerializer();
+Context.Response.Write(js.Serialize(slist));
+}
+create class student and add this code:
+public class student
+{
+public string name { get; set; }
+public int rollno { get; set; }
+public string emailid { get; set; }
+}
+create a table with columns name,rollno and email and insert random values
+add this code in webconfig file:
+<connectionStrings>
+<add name="ApplicationServices" connectionString="add database connectionstring"/>
+</connectionStrings>
+run webservice
+
+Practical no- 7
+Aim: Define a RESTful web service that accepts the details to be stored in a database
+and performs CRUD operation.
+
+create web app in netbeans
+create entity class
+right click and Insert code after set id property
+right click and add property(sname)
+Add JSF pages from entity class
+Now add RestFull webservices from entity class
+run project
+
+Practical no- 8
+Aim: Implement a typical service and a typical client using WCF.
+
+create .net web application
+in student database Create table stud with id, name and address and insert few dummy data
+Add a WCF service to you project
+public interface IService1
+{
+[OperationContract]
+student GetStudent();
+}
+[DataContract]
+public class student
+{
+public student()
+{
+this.studentsTable = new DataTable("student");
+}
+[DataMember]
+public DataTable studentsTable { get; set; }
+}
+}
+add this in webconfig:
+<configuration>
+<connectionStrings>
+<add name="APP" connectionString="your db connection string"/>
+</connectionStrings>
+- In service1.svc add following code as shown in image
+public student GetStudent()
+{string constr=ConfigurationManager.ConnectionStrings["APP"].ConnectionString;
+using (SqlConnection con = new SqlConnection(constr))
+{using (SqlCommand cmd = new SqlCommand("select * from student"))
+{using (SqlDataAdapter sda=new SqlDataAdapter())
+{cmd.Connection = con;
+sda.SelectCommand = cmd;
+using (DataTable dt = new DataTable())
+{student s=new student();
+sda.Fill(s.studentsTable);
+return s;}}}}}
+run service in debug mode
+add service reference
+add new web form
+add gridview
+- type the code below between page_load
+ServiceReference1.Service1Client sc=new ServiceReference1.Service1Client();
+GridView1.DataSource = sc.GetStudent().studentsTable;
+GridView1.DataBind();
+run webform
+
+Practical no-9
+Aim: Use WCF to create a basic ASP.NET Asynchronous JavaScript and XML (AJAX)
+service.
+
+create web app in vs
+add webform
+add 2 text box and 1 button(use html components)
+add wcf service to project and add this code:
+[OperationContract]
+public int addition(int a, int b)
+{
+return a + b;
+}
+add script manager to the design and add this code in the tag:
+<Services>
+<asp:ServiceReference Path="path of your wcf service" />
+</Services>
+add this code in the end of design code:
+<script type="text/javascript">
+function add() {
+var a, b;
+a = parseInt(document.getElementById("n1").value);
+b = parseInt(document.getElementById("n2").value);
+Service1.addition(a, b, onSuccess);
+}
+function onSuccess(result) {
+var myres = $get("ans");
+myres.innerHTML = "addition of two numbers is " + result;
+}
+</script>
+run webform
+
+Practical no-10
+Aim: Demonstrates using the binding attribute of an endpoint element in WCF
+
+create wcf application
+Add the following code in the interface (IService.cs) as shown below:
+[OperationContract]
+int add(int a,int b);
+Add the following code in the class (“service1.svc.cs”)
+public int add(int a,int b)
+{
+return a + b;
+}
+run project
+copy address of service1.svc and paste in browser
+Now click the first link and copy the link from the browser
+create web application in netbeans
+add web client service and paste url in wsdl url
+create jsp page
+Drag and drop the add function from the web service reference
+Now modify the code as shown below:
+<form name="myform">
+Enter number 1: <input type="text" name="n1" id="n1"><br/>
+Enter number 2: <input type="text" name="n2" id="n2"><br/>
+<input type="submit" value="add">
+<br>
+<% if(request.getParameter("n1")!=null &&
+request.getParameter("n2")!=null)
+{
+int x=Integer.parseInt(request.getParameter("n1"));
+int y=Integer.parseInt(request.getParameter("n2"));
+try {
+org.tempuri.Service1 service = new org.tempuri.Service1();
+
+org.tempuri.IService1 port =
+service.getBasicHttpBindingIService1();
+
+// TODO process result here
+java.lang.Integer result = port.add(x, y);
+out.println("Addition of two number is : "+result);
+}
+catch (Exception ex)
+{
+// TODO handle custom exceptions here
+}
+}
+%>
+13. Now run the JSP page. Make sure you asp.net Page in still running.
