@@ -1,10 +1,4 @@
-Cloud Computing
-Practical Journal
-Submitted BY
-Sharon James
-Seat number : 31011121023
-Third Year Computer Science Honors
-2023-2024
+
 
 Practical 1
 Setting up of Azure account
