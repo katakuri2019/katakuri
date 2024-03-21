@@ -1,0 +1,68 @@
+ttps://anish13-secondary.z29.web.core.windows.net/
+
+Step 1 create a storage account
+
+
+ 
+
+
+
+
+
+
+Step 2:deploy the server
+
+
+ 
+
+
+
+
+
+
+
+Go to resource and click on overview and select capabilities 
+
+Click on static website and create a index file and and name a 404 html file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Save the file and enable the static website option
+
+
+
+Go to containers and go to web and upload the html form you have created 
+
+
+
+
+
+
+
+
+
+
+
+If you see the html file it has been uploaded 
+
+
+
+
+
+
+
+
+You can see the html form
