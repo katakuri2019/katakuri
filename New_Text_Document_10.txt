@@ -1,0 +1,15 @@
+Time series analysis: Examines patterns, trends, and relationships within sequential data points over time to make predictions or identify underlying structures.
+
+Analysis of variance (ANOVA): Statistical method used to compare means between two or more groups to determine if there are statistically significant differences among them.
+
+Linear regression: Statistical technique to model the relationship between a dependent variable and one or more independent variables by fitting a straight line to the observed data points.
+
+Multiple linear regression: Extension of linear regression that models the relationship between a dependent variable and two or more independent variables by fitting a linear equation to the observed data points.
+
+Hypothesis testing: Statistical method used to evaluate whether a given hypothesis about a population parameter is supported by sample data, typically involving comparing sample statistics to theoretical distributions.
+
+Decision tree: Machine learning algorithm that recursively splits the data based on feature attributes to make decisions or predictions by constructing a tree-like structure.
+
+Logistic regression: Statistical model used for binary classification problems, estimating the probability of a binary outcome based on one or more predictor variables.
+
+K-means clustering: Unsupervised machine learning algorithm that partitions data points into K clusters based on similarity, aiming to minimize the within-cluster sum of squares.
